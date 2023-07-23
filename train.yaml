@@ -1,0 +1,25 @@
+# Data
+csv_file: "QQQ_whole_ET.csv"
+log_path: "./logs"
+checkpoint_path: "./checkpoints"
+save_step: 50
+
+
+#trainning
+learning_rate: 0.001 
+epoch: 100
+
+# Dataset 
+n_workers: 3               # Num of workers used in data loader.
+batch_size: 64               # Batch size.
+log_step: 5                 # Step interval in logging on command-line and Tensorboard.
+final_steps: 15300 
+use_fp16: False              # Usage of half precision.
+use_trt: False              # Usage of accelerated inference using TensorRT.
+pyprof_enabled: False       # Usage of pyprof. Enable it only for profiling use.
+past_window_size: 4 
+
+# LSTM model architecture
+lstm_hidden_size: 64 
+lstm_input_size: 2 
+lstm_num_layers: 2
