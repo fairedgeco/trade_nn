@@ -6,9 +6,6 @@ import torch.nn.functional as F
 class CNN(nn.Module):
     def __init__(self, n_layers, name):
         super().__init__()
-        #self.layer_stack = nn.ModuleList([ConvLayer(
-        #    name="{}.layer_stack.{}".format(name, i),
-        #) for i in range(n_layers)])
         self.net = nn.Sequential(
             nn.Conv1d(in_channels = 4, out_channels = 8, kernel_size=10), 
             nn.ReLU(), 

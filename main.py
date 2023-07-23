@@ -29,6 +29,7 @@ def train(hparam = "train.yaml", **kwargs):
     dataset = QQQDataSet(
         csv_file_name = hp.csv_file,
         past_window_size = hp.past_window_size,
+        window_size= hp.pivot_window_size,
     )
     data_loader = DataLoader(dataset,
                              drop_last=True,

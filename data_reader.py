@@ -4,11 +4,15 @@ from torch.utils.data import Dataset
 
 
 class QQQDataSet(Dataset):
-    def __init__(self, csv_file_name, past_window_size = 4):
+    def __init__(self, csv_file_name, past_window_size = 4, window_size = 10, train_mode = True):
         self.past_window_size = past_window_size
+        self.window_size = window_size
         with open(csv_file_name, "r") as fp:
             self.pd_data= pd.read_csv(fp)
-            self.pd_data = self.pd_data[0:int(len(self.pd_data) * 0.85)]
+            if train_mode:
+                self.pd_data = self.pd_data[0:int(len(self.pd_data) * 0.85)]
+            else:
+                self.pd_data = self.pd_data[int(len(self.pd_data) * 0.85) + 1 : ]
         self.get_windows_pivot()
     
     def __len__(self):
@@ -16,7 +20,7 @@ class QQQDataSet(Dataset):
 
     def __getitem__(self, idx):
         pivot_range = self.pivot_list[idx : idx + self.past_window_size]
-        original_data = self.pd_data[idx * 10: (idx + self.past_window_size) * 10]
+        original_data = self.pd_data[idx * self.window_size: (idx + self.past_window_size) * self.window_size]
         lstm_data = []
         cnn_data = []
         for i in range(self.past_window_size):
@@ -24,7 +28,7 @@ class QQQDataSet(Dataset):
             lstm_item = [pivot[3], pivot[4] ]
             lstm_data.append(lstm_item)
             cnn_item = []
-            for j in range(10):
+            for j in range(self.window_size):
                 price_data = original_data.iloc[i + j]
                 minute_data = [price_data.Open, price_data.High, price_data.Low, price_data.Close]
                 cnn_data.append(minute_data)
@@ -60,8 +64,8 @@ class QQQDataSet(Dataset):
     
     def get_windows_pivot(self):
         self.pivot_list = []
-        for i in range(0, len(self.pd_data), 10):
-            lagging_window = self.pd_data[i: i+10]
+        for i in range(0, len(self.pd_data), self.window_size):
+            lagging_window = self.pd_data[i: i+self.window_size]
             #print(lagging_window)
             #max_index = lagging_window.High.idxmax()
             #min_index = lagging_window.Low.idxmin()
@@ -91,7 +95,7 @@ class QQQDataSet(Dataset):
             #    print(self.pivot_list[-1], "Downtrends")
             #else:
             #    print(self.pivot_list[-1])
-        self.pd_data = self.pd_data[10:]
+        self.pd_data = self.pd_data[self.window_size:]
         self.pivot_list = self.pivot_list[1:]
 
 

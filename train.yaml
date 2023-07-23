@@ -18,8 +18,9 @@ use_fp16: False              # Usage of half precision.
 use_trt: False              # Usage of accelerated inference using TensorRT.
 pyprof_enabled: False       # Usage of pyprof. Enable it only for profiling use.
 past_window_size: 4 
+pivot_window_size: 10 
 
 # LSTM model architecture
 lstm_hidden_size: 64 
 lstm_input_size: 2 
-lstm_num_layers: 2
+lstm_num_layers: 2 
