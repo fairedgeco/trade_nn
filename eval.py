@@ -34,6 +34,7 @@ def test(hparam = "train.yaml", **kwargs):
         lstm_num_layers=hp.lstm_num_layers,
         name = "Mix_Model"
     )
+    tprint("Checkpoint File: {}".format(hp.check_point_file))
     state_dict = torch.load(hp.check_point_file)
     remove_prefix = 'module.'
     state_dict['model'] = {k[len(remove_prefix):] if k.startswith(remove_prefix) else k: v for k, v in state_dict['model'].items()}

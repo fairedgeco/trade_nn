@@ -3,7 +3,7 @@ csv_file: "QQQ_whole_ET.csv"
 log_path: "./logs"
 checkpoint_path: "./checkpoints"
 save_step: 50
-
+check_point_file: "./checkpoints/MixModel/checkpoint_015300.pt"
 
 #trainning
 learning_rate: 0.001 
